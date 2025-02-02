@@ -28,6 +28,9 @@ const initModels = () => {
         models[modelName].associate(models);
       }
     });
+
+    sequelize.models = models;
+    return models;
   };
 
 // Function to connect to the database and sync models
@@ -48,4 +51,4 @@ const connectDB = async () => {
 };
 
 // Export the sequelize instance, models, and the connection function
-module.exports = { sequelize, connectDB };
+module.exports = { sequelize, connectDB, initModels };

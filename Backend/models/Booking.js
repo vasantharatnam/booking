@@ -45,6 +45,7 @@ module.exports = () => {
     // Association method
     Booking.associate = (models) => {
         // Booking belongs to a user and a train
+        // Booking.belongsTo(models.User, { foreignKey: "user_id" });
         Booking.belongsTo(models.User, { foreignKey: "user_id" });
         Booking.belongsTo(models.Train, { foreignKey: "train_id" });
     };

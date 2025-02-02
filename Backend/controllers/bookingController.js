@@ -1,6 +1,8 @@
 const { sequelize } = require('../utils/db');
 const Booking = require('../models/Booking')(sequelize);
 const Train = require('../models/Train')(sequelize);
+// const { Booking, Train } = sequelize.models;
+
 
 // Book a seat with concurrency handling
 exports.bookSeat = async (req, res, next) => {
@@ -61,15 +63,40 @@ exports.getBookingDetails = async (req, res, next) => {
         const booking_id = req.params.id;
         const user_id = req.user.id;
 
-        const booking = await Booking.findOne({
-            where: { id: booking_id, user_id },
-            include: ['Train'],
+        console.log('user_id', user_id);
+        console.log('booking_id', booking_id);
+
+        const booking = await Booking?.findAll({
+            where: { 
+                user_id: user_id 
+            }
+            // attributes: ['id', 'seat_number', 'status', 'createdAt'],
+            // include: [
+            //     {
+            //         model: Train,
+            //         required: false,
+            //         // attributes: ['train_number'] // Include train_number from the Train table
+            //     }
+            // ]
         });
 
-        if (!booking) {
+        if (booking?.length === 0) {
             return res.status(404).json({ message: 'Booking not found.' });
         }
 
+        // console.log(booking, 'booking');
+
+        // const bookingDetails = booking?.map(bookinga => ({
+        //     id: bookinga.id,
+        //     seat_number: bookinga.seat_number,
+        //     train_number: bookinga.Train.train_number, // Access the train_number from the included Train model
+        //     status: bookinga.status,
+        //     createdAt: bookinga.createdAt
+        // }));
+
+        // console.log(bookingDetails);
+
+        // res.status(200).json({ bookingDetails });
         res.status(200).json({ booking });
     } catch (error) {
         next(error);
