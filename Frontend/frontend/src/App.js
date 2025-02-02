@@ -34,21 +34,21 @@ function App() {
                                     <TrainsPage />
                                 </ProtectedRoute>
                             } />
-                            <Route path="/trains/:id" element={
+                            {/* <Route path="/trains/:id" element={
                                 <ProtectedRoute>
                                     <TrainsPage />
                                 </ProtectedRoute>
-                            } />
+                            } /> */}
                             <Route path="/bookings" element={
                                 <ProtectedRoute>
                                     <BookingsPage />
                                 </ProtectedRoute>
                             } />
-                            <Route path="/bookings/:id" element={
+                            {/* <Route path="/bookings/:id" element={
                                 <ProtectedRoute>
                                     <BookingsPage />
                                 </ProtectedRoute>
-                            } />
+                            } /> */}
                             {/* Catch-all 404 Route */}
                             <Route path="*" element={<p className="text-center mt-10">Page Not Found</p>} />
                         </Routes>

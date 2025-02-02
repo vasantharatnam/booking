@@ -1,11 +1,14 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../utils/db').sequelize.models;
+const bcryptjs = require('bcryptjs');
+const { sequelize } = require("../utils/db");
+const User = require('../models/User')(sequelize);
 require('dotenv').config();
+
 
 // Generate JWT Token
 const generateToken = (user) => {
     return jwt.sign(
-        { id: user.id, role: user.role },
+        { id: user?.id, role: user?.role },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
     );
@@ -17,18 +20,19 @@ exports.register = async (req, res, next) => {
         const { username, email, password } = req.body;
 
         // Check if user exists
-        const existingUser = await User.findOne({ where: { email } });
+        const existingUser = await User?.findOne({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists.' });
         }
 
         // Create user
-        const user = await User.create({
+        const user = await User?.create({
             username,
             email,
             password_hash: password,
         });
 
+        console.log(user," user");
         // Generate token
         const token = generateToken(user);
 

@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
+const { sequelize } = require('../utils/db');
 
-module.exports = (sequelize) => {
+module.exports = () => {
     const Booking = sequelize.define('Booking', {
         seat_number: {
             type: DataTypes.INTEGER,
@@ -40,6 +41,13 @@ module.exports = (sequelize) => {
             }
         ]
     });
+
+    // Association method
+    Booking.associate = (models) => {
+        // Booking belongs to a user and a train
+        Booking.belongsTo(models.User, { foreignKey: "user_id" });
+        Booking.belongsTo(models.Train, { foreignKey: "train_id" });
+    };
 
     return Booking;
 };

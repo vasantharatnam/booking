@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
+const { sequelize } = require('../utils/db');
 const bcrypt = require('bcryptjs');
 
-module.exports = (sequelize) => {
+module.exports = () => {
     const User = sequelize.define('User', {
         username: {
             type: DataTypes.STRING,
@@ -31,6 +32,12 @@ module.exports = (sequelize) => {
             },
         },
     });
+
+    // Association method
+    User.associate = (models) => {
+        // One user can have many bookings
+        User.hasMany(models.Booking, { foreignKey: "user_id" });
+    };
 
     User.prototype.validPassword = async function(password) {
         return await bcrypt.compare(password, this.password_hash);

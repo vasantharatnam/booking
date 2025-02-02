@@ -1,5 +1,6 @@
-const { Booking, Train } = require('../utils/db').sequelize.models;
 const { sequelize } = require('../utils/db');
+const Booking = require('../models/Booking')(sequelize);
+const Train = require('../models/Train')(sequelize);
 
 // Book a seat with concurrency handling
 exports.bookSeat = async (req, res, next) => {

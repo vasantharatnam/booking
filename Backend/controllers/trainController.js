@@ -1,4 +1,5 @@
-const { Train, Booking } = require('../utils/db').sequelize.models;
+const { sequelize } = require('../utils/db');
+const Train = require('../models/Train')(sequelize);
 
 // Add a new train (Admin only)
 exports.addTrain = async (req, res, next) => {

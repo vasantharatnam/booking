@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { bookSeat } from '../../services/api';
 
-const BookingForm = ({ trainId }) => {
+const BookingForm = ({ trainId,onResult }) => {
     const [seatNumber, setSeatNumber] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
@@ -9,12 +9,21 @@ const BookingForm = ({ trainId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await bookSeat({ train_id: trainId, seat_number: parseInt(seatNumber) });
-            setMessage(response.data.message);
-            setError('');
+          const response = await bookSeat({ train_id: trainId, seat_number: parseInt(seatNumber) });
+          setMessage(response.data.message);
+          setError('');
+          // Pass the successful booking message back to the TrainList component
+          if (onResult) {
+            onResult(response.data.message, false);
+          }
         } catch (err) {
-            setError(err.response?.data?.message || 'Booking failed.');
-            setMessage('');
+          const errMsg = err.response?.data?.message || 'Booking failed.';
+          setError(errMsg);
+          setMessage('');
+          // Pass the error message back to the TrainList component
+          if (onResult) {
+            onResult(errMsg, true);
+          }
         }
     };
 

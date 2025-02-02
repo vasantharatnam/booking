@@ -14,6 +14,7 @@ const Navbar = () => {
                         <>
                             {user.role === 'admin' && <Link to="/admin" className="hover:underline">Admin</Link>}
                             <Link to="/trains" className="hover:underline">Trains</Link>
+                            <Link to="/bookings" className="hover:underline">Bookings</Link>
                             <button onClick={logout} className="hover:underline">Logout</button>
                         </>
                     ) : (
